@@ -1,0 +1,9 @@
+image:
+  repository: linuxserver/openssh-server
+  tag: ""
+
+service:
+  port: 2222
+
+publicKey: |
+  ssh-rsa AAAAB3NzaC1yc2E...tJG1PK2Mq++wQ== jsmith@example.com

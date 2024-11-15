@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "bastion.fullname" . }}
+  labels:
+    {{- include "bastion.labels" . | nindent 4 }}
+data:
+  ssh-init: |
+    #!/bin/bash
+    sed -i 's/#AllowAgentForwarding yes/AllowAgentForwarding yes/g' /etc/ssh/sshd_config
+    sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/g' /etc/ssh/sshd_config
+    sed -i 's/GatewayPorts no/GatewayPorts yes/g' /etc/ssh/sshd_config
+    sed -i 's/PermitTunnel no/PermitTunnel yes/g' /etc/ssh/sshd_config
+    sed -i 's/X11Forwarding no/X11Forwarding yes/g' /etc/ssh/sshd_config

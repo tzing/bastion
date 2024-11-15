@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bastion.fullname" . }}
+  labels:
+    {{- include "bastion.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "bastion.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "bastion.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: PUBLIC_KEY
+              value: {{ .Values.publicKey | quote }}
+          volumeMounts:
+            - name: custom-cont-init
+              mountPath: /custom-cont-init.d
+      volumes:
+        - name: custom-cont-init
+          configMap:
+            name: {{ include "bastion.fullname" . }}
