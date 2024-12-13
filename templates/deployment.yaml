@@ -24,6 +24,8 @@ spec:
           env:
             - name: PUBLIC_KEY
               value: {{ .Values.publicKey | quote }}
+            - name: LOG_STDOUT
+              value: "true"
           volumeMounts:
             - name: custom-cont-init
               mountPath: /custom-cont-init.d
