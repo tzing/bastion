@@ -1,6 +1,6 @@
 image:
   repository: linuxserver/openssh-server
-  tag: ""
+  tag: "version-9.9_p2-r0"
 
 service:
   port: 2222
